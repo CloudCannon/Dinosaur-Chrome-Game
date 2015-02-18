@@ -131,41 +131,6 @@
 		frontLegUp: true
 	});
 
-	drawDinosaur({
-		context: context, 
-		left: 10, 
-		bottom: canvas.height - 10
-	});
-
-	drawDinosaur({
-		context: context, 
-		left: 110, 
-		bottom: canvas.height - 10,
-		backLegUp: true
-	});
-
-	drawDinosaur({
-		context: context, 
-		left: 210, 
-		bottom: canvas.height - 10,
-		frontLegUp: true
-	});
-
-	drawDinosaur({
-		context: context, 
-		left: 310, 
-		bottom: canvas.height - 60,
-		backLegUp: true,
-		frontLegUp: true
-	});
-
-	drawDinosaur({
-		context: context, 
-		left: 510, 
-		bottom: canvas.height - 10,
-		wideEyed: true
-	});
-
 	drawCactus({
 		context: context, 
 		left: 410, 
@@ -186,5 +151,29 @@
 		bottom: canvas.height - 10,
 		scale: 1.2
 	});
+
+	var lastTick = null,
+		jumping = false,
+		score = 0,
+		ground = canvas.height - 10,
+		speed = 0.01; // 10 score per second
+
+	function step(timestamp) {
+		if (lastTick) {
+			score += (timestamp - lastTick) * speed;
+
+			drawDinosaur({
+				context: context, 
+				left: 10, 
+				bottom: ground,
+				backLegUp: Math.floor(score) % 3 === 0,
+				frontLegUp: Math.floor(score) % 3 === 1
+			});
+		}
+		lastTick = timestamp;
+		window.requestAnimationFrame(step);
+	}
+
+	window.requestAnimationFrame(step);
 
 })(window, document, $);
