@@ -30,7 +30,9 @@
 		if (cacti.length === 0) {
 			cacti.push({
 				x: canvas.width + offset + buffer, 
-				scale: rand(0.8, 1.5)
+				scale: rand(0.8, 1.5), 
+				leftSize: rand(0.5, 1.5), 
+				rightSize: rand(0.5, 1.5)
 			});
 		}
 	}
@@ -143,13 +145,15 @@
 		context.fillRect(x + 7 * scale, y - 41 * scale, 4 * scale, 1 * scale);
 		
 		// left
-		context.fillRect(x, y - 30 * scale, 4 * scale, 15 * scale);
-		context.fillRect(x + 1 * scale, y - 31 * scale, 2 * scale, 1 * scale);
+		var height = 15 * options.leftSize;
+		context.fillRect(x, y - (15 + height) * scale, 4 * scale, height * scale);
+		context.fillRect(x + 1 * scale, y - (15 + height + 1) * scale, 2 * scale, 1 * scale);
 		context.fillRect(x + 4 * scale, y - 19 * scale, 4 * scale, 4 * scale);
 
 		// right
-		context.fillRect(x + 14 * scale, y - 30 * scale, 4 * scale, 15 * scale);
-		context.fillRect(x + 15 * scale, y - 31 * scale, 2 * scale, 1 * scale);
+		height = 15 * options.rightSize;
+		context.fillRect(x + 14 * scale, y - (15 + height) * scale, 4 * scale, height * scale);
+		context.fillRect(x + 15 * scale, y - (15 + height + 1) * scale, 2 * scale, 1 * scale);
 		context.fillRect(x + 12 * scale, y - 19 * scale, 4 * scale, 4 * scale);
 	}
 
@@ -181,11 +185,11 @@
 					context: context, 
 					left: cacti[i].x - score * 10,
 					bottom: canvas.height - 10,
-					scale: cacti[i].scale
+					scale: cacti[i].scale,
+					leftSize: cacti[i].leftSize,
+					rightSize: cacti[i].rightSize
 				});
-				
 			}
-
 
 			drawDinosaur({
 				context: context, 
