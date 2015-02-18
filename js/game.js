@@ -83,6 +83,29 @@
 		}
 	}
 
+	function drawCactus(options) {
+		var context = options.context,
+			x = options.left,
+			y = options.bottom,
+			scale = options.scale;
+
+		context.fillStyle = defaultColour;
+		
+		// center
+		context.fillRect(x + 6 * scale, y - 40 * scale, 6 * scale, 40 * scale);
+		context.fillRect(x + 7 * scale, y - 41 * scale, 4 * scale, 1 * scale);
+		
+		// left
+		context.fillRect(x, y - 30 * scale, 4 * scale, 15 * scale);
+		context.fillRect(x + 1 * scale, y - 31 * scale, 2 * scale, 1 * scale);
+		context.fillRect(x + 4 * scale, y - 19 * scale, 4 * scale, 4 * scale);
+
+		// right
+		context.fillRect(x + 14 * scale, y - 30 * scale, 4 * scale, 15 * scale);
+		context.fillRect(x + 15 * scale, y - 31 * scale, 2 * scale, 1 * scale);
+		context.fillRect(x + 12 * scale, y - 19 * scale, 4 * scale, 4 * scale);
+	}
+
 	drawBackground({
 		context: context, 
 		left: 0, 
@@ -116,6 +139,27 @@
 		bottom: canvas.height - 60,
 		backLegUp: true,
 		frontLegUp: true
+	});
+
+	drawCactus({
+		context: context, 
+		left: 410, 
+		bottom: canvas.height - 10,
+		scale: 1
+	});
+
+	drawCactus({
+		context: context, 
+		left: 430, 
+		bottom: canvas.height - 10,
+		scale: 1
+	});
+
+	drawCactus({
+		context: context, 
+		left: 560, 
+		bottom: canvas.height - 10,
+		scale: 1.2
 	});
 
 })(window, document, $);
