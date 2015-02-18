@@ -54,7 +54,12 @@
 		context.fillRect(x + 38, y - 54, 2, 20);
 		context.fillRect(x + 40, y - 54, 12, 16);
 		context.fillRect(x + 52, y - 52, 2, 14);
-		context.fillRect(x + 40, y - 36, 8, 2);
+
+		if (options.wideEyed) {
+			context.fillRect(x + 38, y - 34, 8, 2);
+		} else {
+			context.fillRect(x + 40, y - 36, 8, 2);
+		}
 
 		// arm (singular)
 		context.fillRect(x + 36, y - 26, 4, 2);
