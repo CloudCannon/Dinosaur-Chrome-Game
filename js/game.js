@@ -33,10 +33,23 @@
 		context.fillRect(x + 24, y - 38, 2, 30);
 		context.fillRect(x + 26, y - 38, 2, 28);
 		context.fillRect(x + 28, y - 52, 2, 40);
-		context.fillRect(x + 30, y - 54, 2, 40);
-		context.fillRect(x + 32, y - 54, 2, 4);
-		context.fillRect(x + 32, y - 48, 2, 32);
-		context.fillRect(x + 34, y - 54, 2, 36);
+
+		if (options.wideEyed) {
+			context.fillRect(x + 30, y - 54, 6, 2);
+			context.fillRect(x + 32, y - 50, 2, 2);
+			context.fillRect(x + 30, y - 46, 2, 32);
+			context.fillRect(x + 32, y - 46, 2, 30);
+			context.fillRect(x + 34, y - 46, 2, 28);
+			// context.fillRect(x + 32, y - 54, 2, 4);
+			// context.fillRect(x + 32, y - 48, 2, 32);
+			// context.fillRect(x + 34, y - 54, 2, 36);
+		} else {
+			context.fillRect(x + 30, y - 54, 2, 40);
+			context.fillRect(x + 32, y - 54, 2, 4);
+			context.fillRect(x + 32, y - 48, 2, 32);
+			context.fillRect(x + 34, y - 54, 2, 36);
+		}
+
 		context.fillRect(x + 36, y - 54, 2, 34);
 		context.fillRect(x + 38, y - 54, 2, 20);
 		context.fillRect(x + 40, y - 54, 12, 16);
@@ -139,6 +152,13 @@
 		bottom: canvas.height - 60,
 		backLegUp: true,
 		frontLegUp: true
+	});
+
+	drawDinosaur({
+		context: context, 
+		left: 510, 
+		bottom: canvas.height - 10,
+		wideEyed: true
 	});
 
 	drawCactus({
