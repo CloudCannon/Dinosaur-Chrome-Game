@@ -2,7 +2,20 @@
 	var canvas = document.getElementById("game"),
 		context = canvas.getContext("2d"),
 		defaultColour = "#444",
-		backgroundColour = "#eee";
+		backgroundColour = "#eee",
+		bits = [];
+
+	function generateBits() {
+		for (y = canvas.height - 10; y <= canvas.height; y += 8) {
+			for (x = 0 + rand(0, 100); x <= canvas.width; x += rand(100, 200)) {
+				bits.push({
+					x: x, 
+					y: y, 
+					width: rand(2, 4)
+				});
+			}
+		}
+	}
 
 	function rand(min, max) {
   		return Math.floor(Math.random() * (max - min)) + min;
@@ -87,17 +100,15 @@
 
 	function drawBackground(options) {
 		var context = options.context,
-			x = options.left,
-			y = options.bottom;
+			x = 0,
+			y = options.height;
 
 		context.fillStyle = defaultColour;
 		
-		context.fillRect(x, y - 20, canvas.width, 1);
+		context.fillRect(x, y - 20, options.width, 1);
 
-		for (y = options.bottom - 10; y <= canvas.height; y += 8) {
-			for (x = options.left + rand(0, 100); x <= canvas.width; x += rand(100, 200)) {
-				context.fillRect(x, y, 4, 1);
-			}
+		for (var i = bits.length - 1; i >= 0; i--) {
+			context.fillRect(options.width - ((bits[i].x + options.offset) % options.width), bits[i].y, bits[i].width, 1);
 		}
 	}
 
@@ -124,43 +135,31 @@
 		context.fillRect(x + 12 * scale, y - 19 * scale, 4 * scale, 4 * scale);
 	}
 
-	drawBackground({
-		context: context, 
-		left: 0, 
-		bottom: canvas.height,
-		frontLegUp: true
-	});
-
-	drawCactus({
-		context: context, 
-		left: 410, 
-		bottom: canvas.height - 10,
-		scale: 1
-	});
-
-	drawCactus({
-		context: context, 
-		left: 430, 
-		bottom: canvas.height - 10,
-		scale: 1
-	});
-
-	drawCactus({
-		context: context, 
-		left: 560, 
-		bottom: canvas.height - 10,
-		scale: 1.2
-	});
-
 	var lastTick = null,
 		jumping = false,
 		score = 0,
 		ground = canvas.height - 10,
-		speed = 0.01; // 10 score per second
+		speed = 0.02; // 10 score per second
 
 	function step(timestamp) {
 		if (lastTick) {
 			score += (timestamp - lastTick) * speed;
+
+			context.clearRect ( 0, 0, canvas.width, canvas.height);
+
+			drawBackground({
+				context: context, 
+				width: canvas.width, 
+				height: canvas.height,
+				offset: score * 10,
+			});
+
+			drawCactus({
+				context: context, 
+				left: canvas.width - ((canvas.width + score * 10) % canvas.width), 
+				bottom: canvas.height - 10,
+				scale: 1.2
+			});
 
 			drawDinosaur({
 				context: context, 
@@ -174,6 +173,7 @@
 		window.requestAnimationFrame(step);
 	}
 
+	generateBits();
 	window.requestAnimationFrame(step);
 
 })(window, document, $);
