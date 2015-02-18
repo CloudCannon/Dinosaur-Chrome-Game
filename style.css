@@ -1,0 +1,22 @@
+html, body {
+	background: #eee;
+	font-size: 15px;
+	font-family: Arial;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 800px;
+	margin: 0 auto;
+}
+
+canvas {
+	width: 100%;
+	background: #fff;
+}
+
+.controls {
+	text-align: right;
+	color: #aaa;
+}
