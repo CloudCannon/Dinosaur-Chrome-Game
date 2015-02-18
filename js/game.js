@@ -3,7 +3,8 @@
 		context = canvas.getContext("2d"),
 		defaultColour = "#444",
 		backgroundColour = "#eee",
-		bits = [];
+		bits = [],
+		cacti = [];
 
 	function generateBits() {
 		for (y = canvas.height - 10; y <= canvas.height; y += 8) {
@@ -17,8 +18,25 @@
 		}
 	}
 
+	function updateCacti(offset) {
+		var count = 0, 
+			buffer = 50; // used to force cacti off the screen
+		while (cacti.length > count && cacti[count].x < offset - buffer) { 
+			count++; 
+		}
+
+		cacti.splice(0, count);
+
+		if (cacti.length === 0) {
+			cacti.push({
+				x: canvas.width + offset + buffer, 
+				scale: rand(0.8, 1.5)
+			});
+		}
+	}
+
 	function rand(min, max) {
-  		return Math.floor(Math.random() * (max - min)) + min;
+  		return Math.random() * (max - min) + min;
 	}
 
 	function drawDinosaur(options) {
@@ -147,19 +165,27 @@
 
 			context.clearRect ( 0, 0, canvas.width, canvas.height);
 
+			var offset = score * 10;
+
 			drawBackground({
 				context: context, 
 				width: canvas.width, 
 				height: canvas.height,
-				offset: score * 10,
+				offset: offset,
 			});
 
-			drawCactus({
-				context: context, 
-				left: canvas.width - ((canvas.width + score * 10) % canvas.width), 
-				bottom: canvas.height - 10,
-				scale: 1.2
-			});
+			updateCacti(offset);
+
+			for (var i = 0; i < cacti.length; i++) {
+				drawCactus({
+					context: context, 
+					left: cacti[i].x - score * 10,
+					bottom: canvas.height - 10,
+					scale: cacti[i].scale
+				});
+				
+			}
+
 
 			drawDinosaur({
 				context: context, 
