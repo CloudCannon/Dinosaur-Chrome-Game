@@ -178,7 +178,7 @@
 
 	function step(timestamp) {
 		if (lastTick) {
-			score += (timestamp - lastTick) * speed;
+			score += Math.min((timestamp - lastTick), 1000 / 60) * speed;
 
 			context.clearRect ( 0, 0, canvas.width, canvas.height);
 
