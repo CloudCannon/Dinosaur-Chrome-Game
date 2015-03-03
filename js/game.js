@@ -4,7 +4,8 @@
 		defaultColour = "#444",
 		backgroundColour = "#eee",
 		bits = [],
-		cacti = [];
+		cacti = [],
+		nextCactus = 0;
 
 	function generateBits() {
 		for (y = canvas.height - 10; y <= canvas.height; y += 8) {
@@ -21,25 +22,29 @@
 	function updateCacti(offset) {
 		var count = 0, 
 			buffer = 50; // used to force cacti off the screen
+
 		while (cacti.length > count && cacti[count].x < offset - buffer) { 
 			count++; 
 		}
 
 		cacti.splice(0, count);
 
-		if (cacti.length === 0) {
+		if (offset > nextCactus) {
 			count = Math.floor(rand(1, 3.9));
-			var scale = rand(0.8, 1.5);
+			var scale = rand(0.8, 1.5),
+				x = canvas.width + offset + buffer;
 
 			while (count--) {
 				cacti.push({
-					x: canvas.width + offset + buffer + (count * 20 * scale), 
+					x: x + (count * 20 * scale), 
 					scale: scale, 
 					leftSize: rand(0.5, 1.5), 
 					rightSize: rand(0.5, 1.5), 
 					centerSize: rand(0.5, 1.5)
 				});
 			}
+
+			nextCactus = offset + rand(200, canvas.width);
 		}
 	}
 
