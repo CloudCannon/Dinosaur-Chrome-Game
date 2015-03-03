@@ -44,7 +44,7 @@
 				});
 			}
 
-			nextCactus = offset + rand(200, canvas.width);
+			nextCactus = offset + rand(JUMP_DISTANCE, canvas.width);
 		}
 	}
 
@@ -170,19 +170,45 @@
 		context.fillRect(x + 12 * scale, y - 19 * scale, 4 * scale, 4 * scale);
 	}
 
+	var JUMP_DISTANCE = 350,
+		JUMP_HEIGHT = 100,
+		SPACE_BAR_CODE = 32,
+		RATE_LIMITER = 1000 / 60,
+		SCORE_SPEED = 0.01,
+		OFFSET_SPEED = 40;
+
 	var lastTick = null,
-		jumping = false,
+		jumpStart = null,
 		score = 0,
 		ground = canvas.height - 10,
-		speed = 0.02; // 10 score per second
+		spacePressed = false; // 10 score per second
+
+
+	document.addEventListener('keydown', function keyDown(e) {
+        if (e.keyCode === SPACE_BAR_CODE) {
+			spacePressed = true;
+        }
+    }, false);
+
+	document.addEventListener('keyup', function keyUp(e) {
+        if (e.keyCode === SPACE_BAR_CODE) {
+			spacePressed = false;
+        }
+    }, false);
 
 	function step(timestamp) {
 		if (lastTick) {
-			score += Math.min((timestamp - lastTick), 1000 / 60) * speed;
+			score += Math.min((timestamp - lastTick), RATE_LIMITER) * SCORE_SPEED;
 
 			context.clearRect ( 0, 0, canvas.width, canvas.height);
 
-			var offset = score * 10;
+			context.font = "16px Courier";
+			context.textAlign="right"; 
+
+			var scoreString = Math.floor(score);
+			context.fillText("Score: " + Math.floor(score), canvas.width - 10, 26);
+
+			var offset = score * OFFSET_SPEED;
 
 			drawBackground({
 				context: context, 
@@ -196,7 +222,7 @@
 			for (var i = 0; i < cacti.length; i++) {
 				drawCactus({
 					context: context, 
-					left: cacti[i].x - score * 10,
+					left: cacti[i].x - offset,
 					bottom: canvas.height - 10,
 					scale: cacti[i].scale,
 					leftSize: cacti[i].leftSize,
@@ -205,10 +231,38 @@
 				});
 			}
 
+			if (jumpStart === null && spacePressed) {
+				jumpStart = offset;
+			}
+
+			var bottom = ground;
+
+			if (jumpStart !== null) {
+				var distanceRemaining = jumpStart + JUMP_DISTANCE - offset;
+				if (distanceRemaining <= 0) {
+					jumpStart = null;
+				} else {
+					var maxPoint = JUMP_DISTANCE / 2;
+
+					if (distanceRemaining >= maxPoint) {
+						distanceRemaining -= JUMP_DISTANCE
+					}
+
+					// get a number between 0 and 1
+					// -x^2
+					// var arcPos = Math.abs(Math.pow(distanceRemaining / maxPoint, 2) * -1);
+
+					// linear
+					var arcPos = Math.abs(distanceRemaining / maxPoint);
+
+					bottom -= JUMP_HEIGHT * arcPos;
+				}
+			}
+
 			drawDinosaur({
 				context: context, 
 				left: 10, 
-				bottom: ground,
+				bottom: bottom,
 				backLegUp: Math.floor(score) % 3 === 0,
 				frontLegUp: Math.floor(score) % 3 === 1
 			});
