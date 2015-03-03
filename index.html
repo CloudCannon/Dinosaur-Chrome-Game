@@ -14,8 +14,16 @@
 		<canvas id="game" height="200" width="800"></canvas>
 		<p class="controls">press space bar to start</p>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+        <script src="js/helpers.js"></script>
+        <script src="js/objects/cactus.js"></script>
+        <script src="js/objects/dinosaur.js"></script>
+        <script src="js/objects/background.js"></script>
+        <script src="js/objects/score.js"></script>
         <script src="js/game.js"></script>
+        <script>
+        	new Game({
+        		el: document.getElementById("game")
+        	});
+        </script>
 	</body>
 </html>
