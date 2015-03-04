@@ -48,11 +48,11 @@
 	};
 
 	Dinosaur.prototype.hasBackLegUp = function(offset) {
-		return Math.floor(offset * STEP_SPEED) % 2 === 0;
+		return offset > 0 && Math.floor(offset * STEP_SPEED) % 2 === 0;
 	};
 
 	Dinosaur.prototype.hasFrontLegUp = function(offset) {
-		return Math.floor(offset * STEP_SPEED) % 2 === 1;
+		return offset > 0 && Math.floor(offset * STEP_SPEED) % 2 === 1;
 	};
 
 	Dinosaur.prototype.draw = function(context, offset) {
@@ -133,11 +133,17 @@
 	};
 
 	Dinosaur.prototype.colliders = function(offset) {
+		var y = this.y - this.jumpHeight(offset);
 		return [{
 			x: this.x + offset,
-			y: this.y - this.jumpHeight(offset),
-			width: 52,
-			height: 52
+			y: y,
+			width: 30,
+			height: 20
+		}, {
+			x: this.x + offset + 30,
+			y: y - 34,
+			width: 25,
+			height: 20
 		}];
 	};
 

@@ -1,13 +1,9 @@
 (function(namespace) {
 	function collidesWith(first, second) {
-		// console.log(first.x + " < " + second.x + " + " + second.width + " &&\n" +
-		//    first.x + " + " + first.width + " > " + second.x + " &&\n" +
-		//    first.y + " < " + second.y + " + " + second.height + " &&\n" +
-		//    first.height + " + " + first.y + " > " + second.y)
 		return first.x < second.x + second.width &&
 		   first.x + first.width > second.x &&
-		   first.y < second.y + second.height &&
-		   first.height + first.y > second.y;
+		   first.y > second.y - second.height &&
+		   first.y - first.height  < second.y;
 	}
 
 	function GameObject(options) {}
