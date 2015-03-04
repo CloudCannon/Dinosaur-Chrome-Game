@@ -43,7 +43,7 @@
 			x: this.x,
 			y: this.y,
 			width: 17 * this.scale,
-			height: 20 + (15 * Math.max(this.centerSize, this.leftSize, this.rightSize))
+			height: (20 + (15 * Math.max(this.centerSize, this.leftSize, this.rightSize))) * this.scale
 		}];
 	};
 

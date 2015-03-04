@@ -33,6 +33,7 @@
 		this.offset = 0;
 		this.lastTick = null;
 		this.running = false;
+		this.finished = false;
 
 		this.initObjects();
 		this.draw();
@@ -113,6 +114,7 @@
 		for (var i = 0; i < this.cacti.length; i++) {
 			if (this.player.collidesWith(this.cacti[i], this.offset)) {
 				this.running = false;
+				this.finished = true;
 				this.player.wideEyed = true;
 				return;
 			}
@@ -140,8 +142,10 @@
 			this.running = true;
 		}
 
-		this.lastTick = timestamp;
-		requestAnimationFrame(this.step.bind(this));
+		if (!this.finished) {
+			this.lastTick = timestamp;
+			requestAnimationFrame(this.step.bind(this));
+		}
 	};
 
 	namespace.Game = Game;

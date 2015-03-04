@@ -136,8 +136,13 @@
 		var y = this.y - this.jumpHeight(offset);
 		return [{
 			x: this.x + offset,
-			y: y,
+			y: y - 20,
 			width: 30,
+			height: 16
+		}, {
+			x: this.x + offset + 12,
+			y: y + 2,
+			width: 15,
 			height: 20
 		}, {
 			x: this.x + offset + 30,
