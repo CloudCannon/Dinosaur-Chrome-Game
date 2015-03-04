@@ -11,6 +11,9 @@
 		this.jumpStart = null;
 	}
 
+	Dinosaur.prototype = Object.create(GameObject.prototype);
+	Dinosaur.prototype.constructor = Dinosaur;
+
 	Dinosaur.prototype.isJumping = function(offset) {
 		return this.jumpStart !== null && this.jumpDistanceRemaining(offset) > 0;
 	};
@@ -128,6 +131,16 @@
 		context.fillRect(x + 22, y, 4, 2);
 		context.fillRect(x + 22, y - 6, 2, 8);
 	};
-	
+
+	Dinosaur.prototype.colliders = function(offset) {
+		return [{
+			x: this.x + offset,
+			y: this.y - this.jumpHeight(offset),
+			width: 52,
+			height: 52
+		}];
+	};
+
+
 	namespace.Dinosaur = Dinosaur;
 })(window);

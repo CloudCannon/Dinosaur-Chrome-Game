@@ -13,6 +13,9 @@
 		this.colour = options.colour;
 	}
 
+	ScoreBoard.prototype = Object.create(GameObject.prototype);
+	ScoreBoard.prototype.constructor = ScoreBoard;
+
 	ScoreBoard.prototype.draw = function(context, offset) {
 		context.fillStyle = this.colour;
 		context.font = "16px Courier";

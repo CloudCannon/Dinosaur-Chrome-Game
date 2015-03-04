@@ -20,6 +20,9 @@
 		this.bits = generateBits(this.width, this.height);
 	}
 
+	Background.prototype = Object.create(GameObject.prototype);
+	Background.prototype.constructor = Background;
+
 	Background.prototype.draw = function(context, offset) {
 		context.fillStyle = this.colour;
 		context.fillRect(0, this.height - 20, this.width, 1);

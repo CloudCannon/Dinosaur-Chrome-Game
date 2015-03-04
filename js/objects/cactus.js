@@ -9,13 +9,15 @@
 		this.rightSize = options.rightSize;
 	}
 
+	Cactus.prototype = Object.create(GameObject.prototype);
+	Cactus.prototype.constructor = Cactus;
+
 	Cactus.prototype.draw = function(context, offset) {
 		var x = this.x - offset,
 			y = this.y,
 			scale = this.scale;
 
 		context.fillStyle = this.colour;
-
 
 		// center
 		var height = 15 * this.centerSize;
@@ -34,6 +36,15 @@
 		context.fillRect(x + 14 * scale, y - (15 + height) * scale, 4 * scale, height * scale);
 		context.fillRect(x + 15 * scale, y - (15 + height + 1) * scale, 2 * scale, 1 * scale);
 		context.fillRect(x + 12 * scale, y - 19 * scale, 4 * scale, 4 * scale);
+	};
+
+	Cactus.prototype.colliders = function(offset) {
+		return [{
+			x: this.x,
+			y: this.y,
+			width: 17 * this.scale,
+			height: 20 + (15 * Math.max(this.centerSize, this.leftSize, this.rightSize))
+		}];
 	};
 
 	namespace.Cactus = Cactus;

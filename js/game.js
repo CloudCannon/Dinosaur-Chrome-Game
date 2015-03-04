@@ -32,8 +32,10 @@
 		this.nextCactus = 0;
 		this.offset = 0;
 		this.lastTick = null;
+		this.running = false;
 
 		this.initObjects();
+		this.draw();
 		requestAnimationFrame(this.step.bind(this));
 	}
 
@@ -98,11 +100,23 @@
 		this.background.draw(this.context, this.offset);
 
 		for (var i = 0; i < this.cacti.length; i++) {
+			this.cacti[i].drawColliders(this.context, this.offset);
 			this.cacti[i].draw(this.context, this.offset);
 		}
 
+		this.player.drawColliders(this.context, this.offset);
 		this.player.draw(this.context, this.offset);
 		this.score.draw(this.context, this.offset);
+	};
+
+	Game.prototype.checkCactusHit = function() {
+		for (var i = 0; i < this.cacti.length; i++) {
+			if (this.player.collidesWith(this.cacti[i], this.offset)) {
+				this.running = false;
+				this.player.wideEyed = true;
+				return;
+			}
+		}
 	};
 
 	Game.prototype.clear = function() {
@@ -110,7 +124,7 @@
 	};
 
 	Game.prototype.step = function(timestamp) {
-		if (this.lastTick) {
+		if (this.running && this.lastTick) {
 			this.offset += Math.min((timestamp - this.lastTick), MAX_TIME_TICK) * OFFSET_SPEED;
 
 			this.removeOldCacti();
@@ -120,7 +134,10 @@
 				this.player.startJump(this.offset);
 			}
 
+			this.checkCactusHit();
 			this.draw();
+		} else if (spacePressed) {
+			this.running = true;
 		}
 
 		this.lastTick = timestamp;
