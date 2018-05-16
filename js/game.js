@@ -1,12 +1,12 @@
 (function(namespace) {
 	var DEFAULT_COLOUR = "#444";
-	var BACKGROUND_COLOUR = "#EEE";
+	var BACKGROUND_COLOUR = "#ff0000";
 	var OFFSET_SPEED = 0.4;
 	var MAX_TIME_TICK = 1000 / 60;
 	var SCREEN_BUFFER = 50;
 	var GROUND_BUFFER = 10;
 	var SPACE_BAR_CODE = 32;
-	var MIN_CACTUS_DISTANCE = 400;
+	var MIN_CACTUS_DISTANCE = 500;
 
 	var spacePressed = false;
 	function keydown(e) {
